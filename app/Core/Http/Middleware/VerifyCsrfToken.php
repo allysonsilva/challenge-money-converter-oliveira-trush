@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Core\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
 
+/**
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint
+ */
 class VerifyCsrfToken extends Middleware
 {
     /**
@@ -11,7 +14,5 @@ class VerifyCsrfToken extends Middleware
      *
      * @var array<int, string>
      */
-    protected $except = [
-        //
-    ];
+    protected $except = [];
 }

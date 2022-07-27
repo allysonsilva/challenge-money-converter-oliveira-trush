@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Core\Http\Middleware;
 
 use Illuminate\Cookie\Middleware\EncryptCookies as Middleware;
 
+/**
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint
+ */
 class EncryptCookies extends Middleware
 {
     /**
@@ -12,6 +15,7 @@ class EncryptCookies extends Middleware
      * @var array<int, string>
      */
     protected $except = [
-        //
+        'api_token',
+        'api_refresh',
     ];
 }

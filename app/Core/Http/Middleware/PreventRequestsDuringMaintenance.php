@@ -1,9 +1,12 @@
 <?php
 
-namespace App\Http\Middleware;
+namespace Core\Http\Middleware;
 
 use Illuminate\Foundation\Http\Middleware\PreventRequestsDuringMaintenance as Middleware;
 
+/**
+ * phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint
+ */
 class PreventRequestsDuringMaintenance extends Middleware
 {
     /**
@@ -11,7 +14,5 @@ class PreventRequestsDuringMaintenance extends Middleware
      *
      * @var array<int, string>
      */
-    protected $except = [
-        //
-    ];
+    protected $except = [];
 }
