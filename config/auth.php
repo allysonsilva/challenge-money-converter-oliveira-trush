@@ -1,5 +1,7 @@
 <?php
 
+use Laravel\Sanctum\Sanctum;
+
 return [
 
     /*
@@ -14,7 +16,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'cookie',
         'passwords' => 'users',
     ],
 
@@ -40,6 +42,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'cookie' => [
+            'driver' => 'cookie-auth',
+            'provider' => 'users',
+        ],
     ],
 
     /*
@@ -62,7 +68,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => Core\Models\User::class,
         ],
 
         // 'users' => [
@@ -108,4 +114,27 @@ return [
 
     'password_timeout' => 10800,
 
+    /*
+    |--------------------------------------------------------------------------
+    | Cookie Auth Guard
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'cookies' => [
+        'key' => env('COOKIE_KEY'),
+        'expires' => [
+            'api_token' => env('COOKIE_EXPIRES_API_TOKEN', '+30 minutes'),
+            'api_refresh' => env('COOKIE_EXPIRES_API_REFRESH', '+1 week'),
+        ],
+        'guard' => [
+            'name' => 'cookie',
+            'driver' => 'cookie-auth',
+        ],
+        'stateful' => explode(',', env('AUTH_STATEFUL_DOMAINS', sprintf(
+            '%s%s',
+            'localhost,localhost:3000,127.0.0.1,127.0.0.1:8000,::1',
+            Sanctum::currentApplicationUrlWithPort()
+        ))),
+    ],
 ];
