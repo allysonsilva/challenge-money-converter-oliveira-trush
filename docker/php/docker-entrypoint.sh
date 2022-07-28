@@ -42,9 +42,9 @@ configure_php_ini() {
 
 install_composer_dependencies() {
     if [ ! -d "vendor" ] && [ -f "composer.json" ]; then
-        printf "\n\033[33mComposer vendor folder was not installed. Running >_ composer install --prefer-dist --no-interaction --optimize-autoloader --ansi --no-dev\033[0m\n\n"
+        printf "\n\033[33mComposer vendor folder was not installed. Running >_ composer install --prefer-dist --no-interaction --optimize-autoloader --ansi\033[0m\n\n"
 
-        composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --ansi --no-dev
+        composer install --prefer-dist --no-interaction --optimize-autoloader --ignore-platform-reqs --ansi
 
         printf "\n\033[33mcomposer run-script post-root-package-install\033[0m\n\n"
 
