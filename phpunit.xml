@@ -3,8 +3,21 @@
          xsi:noNamespaceSchemaLocation="./vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
          colors="true"
->
+         cacheResult="true"
+         backupGlobals="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         backupStaticAttributes="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         verbose="true">
     <testsuites>
+        <testsuite name="Domain">
+            <directory suffix="Test.php">./app/Domain</directory>
+        </testsuite>
         <testsuite name="Unit">
             <directory suffix="Test.php">./tests/Unit</directory>
         </testsuite>
@@ -16,9 +29,31 @@
         <include>
             <directory suffix=".php">./app</directory>
         </include>
+        <exclude>
+            <directory suffix="blade.php">./app</directory>
+            <directory suffix=".php">./app/Core/Http</directory>
+            <directory suffix=".php">./app/Core/Models</directory>
+            <directory suffix=".php">./app/Core/Providers</directory>
+            <directory suffix=".php">./app/Core/Exceptions</directory>
+            <directory suffix=".php">./app/Core/ConsoleKernel.php</directory>
+            <directory suffix="Test.php">./app/Domain</directory>
+            <directory suffix=".php">./app/Support/Contracts</directory>
+        </exclude>
+        <report>
+            <text outputFile="php://stdout"/>
+            <!-- <clover outputFile="report/clover-coverage.xml"/> -->
+            <html outputDirectory="report/html-coverage"/>
+            <!-- <xml outputDirectory="report/xml-coverage"/> -->
+        </report>
     </coverage>
+    <logging>
+        <testdoxText outputFile="php://stdout"/>
+        <testdoxHtml outputFile="report/logging-testdox.html"/>
+        <!-- @see https://marmelab.com/phpunit-d3-report/ -->
+        <!-- <junit outputFile="logging/junit.xml"/> -->
+    </logging>
     <php>
-        <env name="APP_ENV" value="testing"/>
+        <env name="APP_ENV" value="testing" force="true"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="array"/>
         <!-- <env name="DB_CONNECTION" value="sqlite"/> -->
