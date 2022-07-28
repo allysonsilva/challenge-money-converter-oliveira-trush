@@ -1,0 +1,33 @@
+---
+version: '3.8'
+
+networks:
+    external_network:
+        external: true
+        name: ${DEFAULT_DOCKER_NETWORK}
+
+volumes:
+    redis_data:
+
+services:
+
+    redis:
+        image: redis:7.0-alpine
+        hostname: redis
+        container_name: ${CONTAINER_NAME_PREFIX}_redis
+        ports:
+            - 7963:6379
+        cap_add:
+            - SYS_RESOURCE
+        volumes:
+            - ./redis.conf:/usr/local/etc/redis/redis.conf:ro
+            - redis_data:/data
+        command: ["redis-server", "/usr/local/etc/redis/redis.conf", "--bind", "0.0.0.0", "--requirepass", "y@9S58sY8pNW"]
+        networks:
+            external_network:
+        healthcheck:
+            test: ["CMD-SHELL", "redis-cli -a \"y@9S58sY8pNW\" --no-auth-warning ping | grep PONG"]
+            start_period: 10s
+            interval: 30s
+            timeout: 5s
+            retries: 3

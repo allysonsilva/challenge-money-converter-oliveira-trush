@@ -1,0 +1,57 @@
+---
+version: '3.8'
+
+volumes:
+    app_logs:
+
+networks:
+    external_network:
+        external: true
+        name: ${DEFAULT_DOCKER_NETWORK}
+
+services:
+
+    app:
+        image: ${APP_IMAGE:-laravel-app}
+        hostname: app_${CONTAINER_NAME_PREFIX}
+        container_name: app_${CONTAINER_NAME_PREFIX}
+        build:
+            context: ${ROOT_PATH}
+            dockerfile: ${DOCKER_PHP_PATH}/Dockerfile
+            args:
+                APP_ENV: production
+                USER_UID: ${USER_UID}
+                USER_GID: ${USER_GID}
+                LOCAL_APP_FOLDER: ${APP_LOCAL_FOLDER}
+                LOCAL_DOCKER_FOLDER: ${LOCAL_DOCKER_FOLDER}
+        ports:
+            - 8000
+        volumes:
+            - ${DOCKER_PHP_PATH}/docker-entrypoint.sh:/entrypoint.sh:ro
+            - ${DOCKER_PHP_PATH}/configs/php-local.ini:/usr/local/etc/php/php.ini
+            # # Uncomment the line below for development/local environment
+            - ${ROOT_PATH}:/var/www/app:delegated
+            # - ${DOCKER_PHP_PATH}/configs/conf.d/opcache.ini:/usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+            - type: volume
+              source: app_logs
+              target: /usr/local/var/log
+        env_file:
+            - ${DOCKER_PHP_APP_PATH}/.env.container
+            # # Uncomment the line below to configure the environment variables for the application tests
+            # - ${DOCKER_PHP_APP_PATH}/.env.testing.container
+        restart: on-failure:3
+        # Graceful shutdown
+        stop_signal: SIGQUIT
+        stop_grace_period: 60s
+        networks:
+            external_network:
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "1m"
+                max-file: "5"
+                mode: "non-blocking"
+                tag: "logging-app"
+        cap_drop:
+            - NET_ADMIN
+            - SYS_ADMIN

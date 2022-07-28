@@ -1,0 +1,35 @@
+version: '3.8'
+
+networks:
+    external_network:
+        external: true
+        name: ${DEFAULT_DOCKER_NETWORK}
+
+services:
+
+    scheduler:
+        user: root
+        image: ${SCHEDULER_IMAGE}
+        hostname: ${CONTAINER_NAME_PREFIX}_scheduler
+        container_name: ${CONTAINER_NAME_PREFIX}_scheduler
+        env_file:
+            - ${DOCKER_PHP_APP_PATH}/.env.container
+            - ${DOCKER_PHP_SCHEDULER_PATH}/.env.container
+        volumes:
+            - ${ROOT_PATH}:/var/www/app:delegated
+            - ${DOCKER_PHP_PATH}/configs/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf:ro
+            - ${DOCKER_PHP_PATH}/docker-entrypoint.sh:/entrypoint.sh:ro
+        ports:
+            - 8080
+        # Graceful shutdown
+        stop_signal: SIGQUIT
+        stop_grace_period: 120s
+        networks:
+            external_network:
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "1m"
+                max-file: "5"
+                mode: "non-blocking"
+                tag: "logging-scheduler"
