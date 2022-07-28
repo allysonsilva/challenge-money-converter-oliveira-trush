@@ -41,7 +41,7 @@
         </exclude>
         <report>
             <text outputFile="php://stdout"/>
-            <!-- <clover outputFile="report/clover-coverage.xml"/> -->
+            <clover outputFile="report/clover-coverage.xml"/>
             <html outputDirectory="report/html-coverage"/>
             <!-- <xml outputDirectory="report/xml-coverage"/> -->
         </report>
