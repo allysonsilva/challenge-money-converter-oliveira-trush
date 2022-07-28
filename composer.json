@@ -52,6 +52,30 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "tests:populate-database": [
+            "php artisan db:seed --class=\"\\\\Tests\\\\Boot\\\\Seeders\\\\PopulateCurrencyDBSeeder\" --env=testing",
+            "php artisan db:seed --class=\"\\\\Tests\\\\Boot\\\\Seeders\\\\PopulateDBSeeder\" --env=testing",
+            "php artisan migrate --env=testing"
+        ],
+        "tests": [
+            "php artisan optimize:clear --env=testing",
+            "php artisan config:cache --env=testing",
+            "@tests:populate-database",
+            "php artisan optimize --env=testing",
+            "@tests:phpunit",
+            "php artisan optimize:clear --env=testing"
+        ],
+        "tests:artisan": "php artisan test --env=testing --parallel --processes=4 --runner WrapperRunner --exclude-group slow",
+        "tests:phpunit": "php -dpcov.enabled=1 -dpcov.directory=app -dpcov.exclude=\"~vendor~\" ./vendor/bin/phpunit --exclude-group slow --colors=always",
+        "tests:parallel": "./vendor/bin/paratest --processes 4 --runner WrapperRunner --exclude-group slow --colors --parallel-suite --passthru=\"-d pcov.enabled=1 -d pcov.directory=app -dpcov.exclude=\"~vendor~\"\"",
+        "code-quality:standard": "phpcs --report=full --report-width=auto",
+        "code-quality:analyse": "php -d memory_limit=1G vendor/bin/phpstan analyse --error-format=table --ansi --memory-limit=1G",
+        "code-quality:mess": "phpmd app ansi phpmd.xml.dist --suffixes php",
+        "code-quality": [
+            "@code-quality:standard",
+            "@code-quality:mess",
+            "@code-quality:analyse"
         ]
     },
     "extra": {
