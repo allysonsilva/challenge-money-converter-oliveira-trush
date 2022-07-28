@@ -14,7 +14,7 @@
                 "type": "VALIDATION_EXCEPTION",
                 "errors": {
                     "amount": [
-                        "O campo Valor deve ser entre R$1,000.00 e R$100,000.00."
+                        "O campo Valor deve ser entre R$\u00a01.000,00 e R$\u00a0100.000,00."
                     ]
                 }
             }

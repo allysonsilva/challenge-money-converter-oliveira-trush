@@ -8,7 +8,7 @@ use App\API\Currency\Mail\ConvertedCurrency;
 use CurrencyDomain\DTO\ConvertedCurrencyResultDTO;
 use CurrencyDomain\Exceptions\NoPaymentMethodChosen;
 use CurrencyDomain\Exceptions\NoConversionRateChosen;
-use App\Http\Middleware\Authenticate as AuthenticateMiddleware;
+use Core\Http\Middleware\Authenticate as AuthenticateMiddleware;
 use Illuminate\Auth\Middleware\Authorize as AuthorizeMiddleware;
 
 class ConvertExchangeRateTest extends TestCase
@@ -47,7 +47,7 @@ class ConvertExchangeRateTest extends TestCase
             'currency_symbol' => 'USD',
         ];
 
-        $response = $this->logged()->getJson(route('api.v1.currency.convert', $query));
+        $response = $this->logged()->withMiddleware(AuthenticateMiddleware::class)->getJson(route('api.v1.currency.convert', $query));
 
         Mail::assertQueued(function (ConvertedCurrency $mail) {
             return $mail->details instanceof ConvertedCurrencyResultDTO &&

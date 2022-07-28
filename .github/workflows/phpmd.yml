@@ -1,0 +1,36 @@
+name: PHPMD - PHP Mess Detector
+
+on:
+    push:
+        paths:
+            - '**.php'
+            - 'phpmd.xml.dist'
+
+jobs:
+
+    phpmd:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: ['8.1']
+
+        name: "PHPMD | PHP: ${{ matrix.php }}"
+
+        steps:
+
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  coverage: none
+
+            - name: Install Composer Dependencies
+              run: |
+                 composer install --no-interaction --no-scripts --no-progress --prefer-dist --ansi --optimize-autoloader
+                 composer update --prefer-stable --prefer-dist --no-interaction --ansi
+
+            - name: Run PHPMD
+              run: composer code-quality:mess

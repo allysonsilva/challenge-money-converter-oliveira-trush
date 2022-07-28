@@ -16,14 +16,14 @@
                     "destino": "USD"
                 },
                 "taxas": {
-                    "pagamento": "R$72.50",
-                    "conversao": "R$50.00"
+                    "pagamento": "R$\u00a072,50",
+                    "conversao": "R$\u00a050,00"
                 },
                 "valores": {
-                    "entrada": "R$5,000.00",
-                    "utilizado_conversao": "R$4,877.50",
-                    "valor_moeda_destino_usado_conversao": "$5.4981",
-                    "convertido_moeda_destino": "$887.12"
+                    "entrada": "R$\u00a05.000,00",
+                    "utilizado_conversao": "R$\u00a04.877,50",
+                    "valor_moeda_destino_usado_conversao": "US$\u00a05,4981",
+                    "convertido_moeda_destino": "US$\u00a0887,12"
                 },
                 "forma_pagamento": "Boleto"
             }

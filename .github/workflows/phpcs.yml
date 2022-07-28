@@ -1,0 +1,36 @@
+name: PHP CodeSniffer - Coding Standards
+
+on:
+    push:
+        paths:
+            - '**.php'
+            - 'phpcs.xml.dist'
+
+jobs:
+
+    phpcs:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php: ['8.1']
+
+        name: "PHPCS | PHP: ${{ matrix.php }}"
+
+        steps:
+
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: ${{ matrix.php }}
+                  coverage: none
+
+            - name: Install Composer Dependencies
+              run: |
+                 composer install --no-interaction --no-scripts --no-progress --prefer-dist --ansi --optimize-autoloader
+                 composer update --prefer-stable --prefer-dist --no-interaction --ansi
+
+            - name: Run PHPCS
+              run: composer code-quality:standard
