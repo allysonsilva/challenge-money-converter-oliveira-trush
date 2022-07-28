@@ -2,6 +2,14 @@
 
 use Illuminate\Support\Str;
 
+$redisConnection = [
+    'url' => env('REDIS_URL'),
+    'host' => env('REDIS_HOST', '127.0.0.1'),
+    'username' => env('REDIS_USERNAME'),
+    'password' => env('REDIS_PASSWORD'),
+    'port' => env('REDIS_PORT', '6379'),
+];
+
 return [
 
     /*
@@ -54,7 +62,7 @@ return [
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
+            'prefix' => env('DB_PREFIX', ''),
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
@@ -125,27 +133,23 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
-        'default' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'username' => env('REDIS_USERNAME'),
-            'password' => env('REDIS_PASSWORD'),
-            'port' => env('REDIS_PORT', '6379'),
+        'default' => array_merge($redisConnection, [
             'database' => env('REDIS_DB', '0'),
-        ],
+        ]),
 
-        'cache' => [
-            'url' => env('REDIS_URL'),
-            'host' => env('REDIS_HOST', '127.0.0.1'),
-            'username' => env('REDIS_USERNAME'),
-            'password' => env('REDIS_PASSWORD'),
-            'port' => env('REDIS_PORT', '6379'),
+        'cache' => array_merge($redisConnection, [
             'database' => env('REDIS_CACHE_DB', '1'),
-        ],
+            'prefix' => env('REDIS_CACHE_PREFIX'),
+        ]),
 
+        'currency' => array_merge($redisConnection, [
+            'database' => env('REDIS_CURRENCY_DB', '3'),
+            // This option, replaces the prefix option above
+            'prefix' => env('REDIS_CURRENCY_PREFIX'),
+        ]),
     ],
 
 ];

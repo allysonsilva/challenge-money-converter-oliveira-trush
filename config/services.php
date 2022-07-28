@@ -31,4 +31,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'openexchangerates' => [
+        'url' => env('EXCHANGE_RATES_API_URL', 'https://openexchangerates.org/api/'),
+        'token' => env('EXCHANGE_RATES_API_KEY'),
+    ],
 ];
