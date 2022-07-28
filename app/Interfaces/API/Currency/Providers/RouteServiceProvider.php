@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
             Route::prefix('api/v1')->name('api.v1.')->group(function () {
                 (new Api())
-                    ->middleware(['api'])
+                    ->middleware(['api', 'auth'])
                     ->name('currency.')
                     ->registerRouteGroups();
             });
