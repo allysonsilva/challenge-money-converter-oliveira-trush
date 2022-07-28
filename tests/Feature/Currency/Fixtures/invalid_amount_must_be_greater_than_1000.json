@@ -1,0 +1,23 @@
+{
+    "name": "Valor da compra deve ser maior que R$ 1.000,00",
+    "request": {
+        "query": {
+            "payment_method": "BOLETO",
+            "currency_symbol": "USD",
+            "amount": "999.99"
+        }
+    },
+    "response": {
+        "statusCode": 422,
+        "body": {
+            "error": {
+                "type": "VALIDATION_EXCEPTION",
+                "errors": {
+                    "amount": [
+                        "O campo Valor deve ser entre R$1,000.00 e R$100,000.00."
+                    ]
+                }
+            }
+        }
+    }
+}

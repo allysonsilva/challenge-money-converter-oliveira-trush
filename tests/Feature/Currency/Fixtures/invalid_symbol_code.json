@@ -1,0 +1,21 @@
+{
+    "name": "Código / símbolo da moeda inválido",
+    "request": {
+        "query": {
+            "payment_method": "CREDIT_CARD",
+            "currency_symbol": "ABC",
+            "amount": "1000.01"
+        }
+    },
+    "response": {
+        "statusCode": 400,
+        "body": {
+            "error": {
+                "type": "INVALID_SYMBOL_CODE",
+                "message": "ABC não é um símbolo / código de moeda válido.",
+                "status": 400,
+                "context": []
+            }
+        }
+    }
+}

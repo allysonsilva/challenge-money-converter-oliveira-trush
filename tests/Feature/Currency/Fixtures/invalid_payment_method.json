@@ -1,0 +1,23 @@
+{
+    "name": "Validação forma de pagamento inválida",
+    "request": {
+        "query": {
+            "payment_method": "INVALID",
+            "currency_symbol": "USD",
+            "amount": "10000.99"
+        }
+    },
+    "response": {
+        "statusCode": 422,
+        "body": {
+            "error": {
+                "type": "VALIDATION_EXCEPTION",
+                "errors": {
+                    "payment_method": [
+                        "The selected Forma de pagamento is invalid."
+                    ]
+                }
+            }
+        }
+    }
+}
