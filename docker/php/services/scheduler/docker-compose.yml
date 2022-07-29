@@ -16,9 +16,9 @@ services:
             - ${DOCKER_PHP_APP_PATH}/.env.container
             - ${DOCKER_PHP_SCHEDULER_PATH}/.env.container
         volumes:
-            - ${ROOT_PATH}:/var/www/app:delegated
             - ${DOCKER_PHP_PATH}/configs/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf:ro
             - ${DOCKER_PHP_PATH}/docker-entrypoint.sh:/entrypoint.sh:ro
+            # - ${ROOT_PATH}:/var/www/app:delegated
         ports:
             - 8080
         # Graceful shutdown
